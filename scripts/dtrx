@@ -563,7 +563,7 @@ class SevenExtractor(NoPipeExtractor):
     def get_filenames(self):
         fn_index = None
         for line in NoPipeExtractor.get_filenames(self):
-            if self.border_re.match(line):
+            if self.border_re.match(line) and ' ' in line:
                 if fn_index is not None:
                     break
                 else:
