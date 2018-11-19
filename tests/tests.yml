@@ -109,7 +109,7 @@
     mkdir test-1.23
     cd test-1.23
     ar p ../$1 control.tar.gz | tar -zx
-    
+
 - name: .gem metadata
   filenames: test-1.23.gem
   options: -m
@@ -215,7 +215,7 @@
     cd test-1.23
     tar -jxf ../$1
   prerun: |
-    mkdir test-1.23 
+    mkdir test-1.23
 
 - name: flat option
   directory: inside-dir
@@ -328,7 +328,7 @@
     a/
     a/b
     foobar
-    
+
     test-1.23.zip:
     1/2/3
     a/b
@@ -631,7 +631,7 @@
     1/2/3
     a/b
     foobar
-    
+
     trickery.tar.gz:
     1/2/3
     a/b
@@ -722,7 +722,7 @@
     test-onedir/test/
     test-onedir/test/foobar
     test-onedir/test/quux
-    
+
     test-text.gz:
     test-text
 
