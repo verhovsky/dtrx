@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
 import errno
 import fcntl
 import logging
@@ -36,13 +35,10 @@ import tempfile
 import termios
 import textwrap
 import traceback
-try:
-    import urlparse
-except ImportError:
-    import urllib.parse as urlparse
+from urllib.parse import urlparse
 
 VERSION = "7.1"
-VERSION_BANNER = """dtrx version %s
+VERSION_BANNER = f"""dtrx version {VERSION}
 Copyright © 2006-2011 Brett Smith <brettcsmith@brettcsmith.org>
 Copyright © 2008 Peter Kelemen <Peter.Kelemen@gmail.com>
 Copyright © 2011 Ville Skyttä <ville.skytta@iki.fi>
@@ -55,7 +51,7 @@ option) any later version.
 This program is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
-Public License for more details.""" % (VERSION,)
+Public License for more details."""
 
 MATCHING_DIRECTORY = 1
 ONE_ENTRY_KNOWN = 2
@@ -1201,7 +1197,7 @@ class ExtractorApplication:
 
     def abort(self, signal_num, frame):
         signal.signal(signal_num, signal.SIG_IGN)
-        print
+        print()
         logger.debug("traceback:\n" +
                      ''.join(traceback.format_stack(frame)).rstrip())
         logger.debug(f"got signal {signal_num}")
@@ -1343,7 +1339,7 @@ class ExtractorApplication:
                                  stdin=subprocess.PIPE)
         if status != 0:
             return None, f"wget returned status code {status}"
-        return os.path.basename(urlparse.urlparse(filename)[2]), None
+        return os.path.basename(urlparse(filename)[2]), None
 
     def run(self):
         if self.options.show_list:
