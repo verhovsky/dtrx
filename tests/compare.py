@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # compare.py -- High-level tests for dtrx.
 # Copyright © 2006-2009 Brett Smith <brettcsmith@brettcsmith.org>.
@@ -49,12 +48,12 @@ class ExtractorTestError(Exception):
     pass
 
 
-class StatusWriter(object):
+class StatusWriter:
     def __init__(self):
         try:
             size = fcntl.ioctl(sys.stdout.fileno(), termios.TIOCGWINSZ,
                                struct.pack("HHHH", 0, 0, 0, 0))
-        except IOError:
+        except OSError:
             self.show = self.show_file
         else:
             self.width = struct.unpack("HHHH", size)[1] - 1
@@ -74,7 +73,7 @@ class StatusWriter(object):
         self.show("")
 
 
-class ExtractorTest(object):
+class ExtractorTest:
     status_writer = StatusWriter()
 
     def __init__(self, **kwargs):
@@ -104,7 +103,7 @@ class ExtractorTest(object):
         return process
 
     def get_results(self, command, stdin=None):
-        print("Output from %s:" % (' '.join(command),), file=self.outbuffer)
+        print("Output from {}:".format(' '.join(command)), file=self.outbuffer)
         self.outbuffer.flush()
         status = self.start_proc(command, stdin, self.outbuffer).wait()
         process = subprocess.Popen(['find'], stdout=subprocess.PIPE)
@@ -168,8 +167,8 @@ class ExtractorTest(object):
         if message is None:
             last_part = ''
         else:
-            last_part = ': %s' % (message,)
-        print("%s: %s%s\n" % (status, self.name, last_part))
+            last_part = f': {message}'
+        print(f"{status}: {self.name}{last_part}\n")
         return status.lower()
 
     def compare_results(self, actual):
@@ -192,7 +191,7 @@ class ExtractorTest(object):
         if self.error and (status == 0):
             return "dtrx did not return expected error"
         elif (not self.error) and (status != 0):
-            return "dtrx returned error code %s" % (status,)
+            return f"dtrx returned error code {status}"
         return None
 
     def grep_output(self, output):
@@ -244,12 +243,12 @@ class ExtractorTest(object):
         return result
 
 
-class TestsRunner(object):
+class TestsRunner:
     outcomes = ['error', 'failed', 'passed']
 
     def __init__(self):
         test_db = open('tests.yml')
-        self.test_data = yaml.load(test_db.read(-1))
+        self.test_data = yaml.safe_load(test_db.read())
         test_db.close()
         self.name_regexps = [re.compile(s) for s in sys.argv[1:]]
         self.tests = [ExtractorTest(**data) for data in self.test_data
@@ -281,7 +280,7 @@ class TestsRunner(object):
             results[test.run()] += 1
         if self.tests:
             self.tests[-1].status_writer.clear()
-        print("Totals:", ', '.join(["%s %s" % (results[key], key)
+        print("Totals:", ', '.join(["{} {}".format(results[key], key)
                                     for key in self.outcomes]))
         return (results["error"] + results["failed"]) == 0
 
