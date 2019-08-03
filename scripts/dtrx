@@ -1251,7 +1251,7 @@ class ExtractorApplication:
         self.options, filenames = parser.parse_args(arguments)
         if not filenames:
             parser.error("you did not list any archives")
-        # This makes WARNING is the default.
+        # This makes WARNING the default.
         self.options.log_level = (10 * (self.options.quiet -
                                         self.options.verbose))
         try:
