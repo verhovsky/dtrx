@@ -4,14 +4,13 @@ dtrx Installation Documentation
 Requirements
 ------------
 
-dtrx will work out of the box with Python_ 2.4 or greater.  You can also
-use Python 2.3 if you separately install the `subprocess module`_.
+dtrx will work out of the box with Python_ 3.5 or greater.
 
 .. _Python: http://www.python.org/
 .. _`subprocess module`: http://www.lysator.liu.se/~astrand/popen5/
 
 dtrx calls out to different external tools to support different archive
-types.  Most of these are already installed on most GNU/Linux systems, so
+types. Most of these are already installed on most GNU/Linux systems, so
 you probably won't have to worry about these too much, but just for
 completeness, the exact requirements for each format are as follows:
 
@@ -73,26 +72,29 @@ Installation
 ------------
 
 dtrx is just a simple script, making it easy to stash wherever you need it.
-Just copy ``scripts/dtrx`` to a location that's convenient for you.  If
+Just copy ``scripts/dtrx`` to a location that's convenient for you. If
 you'd like to install the program system-wide, you can run the following as
 root or equivalent::
 
-   python setup.py install --prefix=/usr/local
+    python setup.py install --prefix=/usr/local
 
 Running Tests
 -------------
 
 dtrx comes with a suite of tests that are designed to ensure it's running
-properly.  If you'd like, you can run these tests on your own system.
+properly. If you'd like, you can run these tests on your own system.
 Simply run the following command from the dtrx source directory::
 
-   python tests/compare.py
+    pytest
 
 To run the tests, you'll need the `PyYAML module`_.
 
 .. _PyYAML module: http://pyyaml.org/
 
-If everything's in order, all the tests should pass.  Note that some of
+If everything's in order, all the tests should pass. Note that some of
 them will fail if some of the programs listed above aren't installed on
-your system.  Many of the tests will fail if for some reason you're missing
+your system. Many of the tests will fail if for some reason you're missing
 the very common commands, like tar and zcat.
+
+Install all the commands necessary for running the tests on Ubuntu with
+   apt install lrzip lzip arj p7zip-full lhasa cabextract unshield unar unrar unzip
