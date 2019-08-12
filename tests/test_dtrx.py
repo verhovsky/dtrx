@@ -46,15 +46,13 @@ ROOT_DIR = Path().absolute()
 
 def run_command(command, input=None, prerun=None):
     if prerun is not None:
-        # pass the prerun paramater as stdin to an `sh` command
-        # in other words, instead of run()ing the command, get subprocess.run
-        # to type it in, letter by letter
-        # TODO: change this to just build a full command.
         prerun_result = subprocess.run(
-            SHELL_CMD, input=prerun, capture_output=True, text=True
+            prerun, shell=True, capture_output=True, text=True
         )
         assert prerun_result.returncode == 0
 
+    # pass `input` as stdin to an `sh` command
+    # get subprocess.run to type it in, letter by letter
     return subprocess.run(command, input=input, capture_output=True, text=True)
 
 
