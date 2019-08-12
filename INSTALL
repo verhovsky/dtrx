@@ -12,58 +12,58 @@ you probably won't have to worry about these too much, but just for
 completeness, the exact requirements for each format are as follows:
 
 tar archives
-  tar
+    tar
 
 zip archives
-  unzip, zipinfo
+    unzip, zipinfo
 
 cpio archives
-  cpio
+    cpio
 
 rpm archives
-  rpm2cpio, cpio
+    rpm2cpio, cpio
 
 deb archives
-  ar, tar, zcat, bzcat, lzcat
+    ar, tar, zcat, bzcat, lzcat
 
 gem archives
-  tar, zcat
+    tar, zcat
 
 7z archives
-  7z
+    7z
 
 lzh archives
-  lha
+    lha
 
 Microsoft Cabinet archives
-  cabextract
+    cabextract
 
 InstallShield archives
-  unshield
+    unshield
 
 rar archives
-  unar or unrar
+    unar or unrar
 
 arj archives
-  arj
+    arj
 
 Files compressed with gzip or compress
-  zcat
+    zcat
 
 Files compressed with bzip2
-  bzcat
+    bzcat
 
 Files compressed with lzma
-  lzcat
+    lzcat
 
 Files compressed with xz
-  xzcat
+    xzcat
 
 Files compressed with lrzip
-  lrzcat
+    lrzcat
 
 Files compressed with lzip
-  lzip
+    lzip
 
 Installation
 ------------
