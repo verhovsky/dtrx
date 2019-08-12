@@ -51,14 +51,14 @@ def run_command(command, input=None, prerun=None):
         )
         assert prerun_result.returncode == 0
 
-    # pass `input` as stdin to an `sh` command
+    # pass `input` as stdin to the `command` command
     # get subprocess.run to type it in, letter by letter
     return subprocess.run(command, input=input, capture_output=True, text=True)
 
 
 def copyfile(src, dst):
     if not src.exists():
-        print(f"file '{src}'' doesn't exist, skipping")
+        print(f"file '{src}' doesn't exist, skipping")
         return
     return shutil.copyfile(src, dst)
 
@@ -130,6 +130,7 @@ def call_test(
     if input is not None and not input.endswith("\n"):
         input += "\n"
 
+    # better variable names
     should_error = error
     expected_output = output
 
@@ -161,31 +162,23 @@ def call_test(
         assert re.search(pattern, stdout_and_stderr, re.MULTILINE) is None
 
     actual_files = list_all_files(test_dir)
-    print("files after running dtrx:")
-    pprint(actual_files)
 
-    # if posttest is None, this just opens and closes a shell.
-    # pass the posttest paramater as stdin to an `sh` command
-    # in other words, instead of run()ing the command, get subprocess.run
-    # to type it in, letter by letter
-    # TODO: change this to just build a full command.
-    assert run_command(SHELL_CMD + [""], input=posttest).returncode == 0
+    if posttest is not None:
+        posttest_result = subprocess.run(
+            posttest, shell=True, capture_output=True, text=True
+        )
+        assert posttest_result.returncode == 0
 
-    if baseline is None:
-        return
+    if baseline is not None:
+        os.chdir(baseline_dir)
+        baseline_result = run_command(
+            SHELL_CMD + filenames, input=baseline, prerun=prerun
+        )
 
-    os.chdir(baseline_dir)
-    baseline_result = run_command(SHELL_CMD + filenames, input=baseline, prerun=prerun)
+        # assert baseline_result.returncode == 0  # commented out because baseline may fail
 
-    print("running baseline command:", baseline)
-    print("baseline stdout:", baseline_result.stdout)
-    print("baseline stderr:", baseline_result.stderr)
-    # assert baseline_result.returncode == 0  # commented out because baseline may fail
-
-    expected_files = list_all_files(baseline_dir)
-    print("files after running baseline:")
-    pprint(expected_files)
-    assert actual_files == expected_files
+        expected_files = list_all_files(baseline_dir)
+        assert actual_files == expected_files
 
 
 def test_basic_tar(tmp_path):
